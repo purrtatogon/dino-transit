@@ -1,0 +1,32 @@
+# -------------------------------------------------------------------
+# Frontend-specific .gitignore
+# -------------------------------------------------------------------
+
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Testing
+coverage
+
+# Production Build (Vite outDir is `build` in vite.config.js)
+build
+dist
+dist-ssr
+
+# Environment Variables (Keep .env if it contains public defaults, ignore local overrides)
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Vite / Tooling
+*.local
+.eslintcache
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
