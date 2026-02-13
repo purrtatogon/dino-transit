@@ -1,0 +1,32 @@
+# -------------------------------------------------------------------
+# Backend-specific .gitignore
+# -------------------------------------------------------------------
+
+# Maven Compiled Code
+target/
+
+# IntelliJ / Eclipse Project Files
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.sts4-cache/
+
+# Spring Boot / Maven Wrapper
+# We WANT to commit the wrapper properties, but not the jar
+!.mvn/wrapper/maven-wrapper.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Application Properties
+# Ignore local overrides for secrets (if you use them)
+application-local.properties
+application-secrets.properties
+
+# Logs
+logs/
+*.log
+
+# Misc
+HELP.md
+.DS_Store
