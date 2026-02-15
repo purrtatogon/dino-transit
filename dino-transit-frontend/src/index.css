@@ -23,11 +23,18 @@ code {
   image-rendering: pixelated;
 }
 
-/* fix leaflet marker z-index issues */
-.leaflet-pane {
-  z-index: 1 !important;
+.dino-wrapper {
+  background: transparent;
+  border: none;
 }
 
-.leaflet-bottom {
-  z-index: 1000 !important;
+/* applied to the inner image */
+.dino-flipped {
+  transform: scaleX(-1);
+}
+
+/* Retro background color for the map container */
+.leaflet-container {
+  background-color: #eaddcf;
+  /* Matches the sepia tone */
 }

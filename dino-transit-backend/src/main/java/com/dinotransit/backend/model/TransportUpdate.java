@@ -5,5 +5,6 @@ public record TransportUpdate(
         String dinoName,  // "Brachiosaurus", "Triceratops", etc.
         String status,    // "Roaring on Schedule"
         Double latitude,
-        Double longitude
+        Double longitude,
+        boolean flipImage // so the flip can work dynamically
 ) {}

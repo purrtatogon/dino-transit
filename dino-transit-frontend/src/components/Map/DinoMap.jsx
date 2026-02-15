@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import { Client } from '@stomp/stompjs';
-import SockJS from 'sockjs-client'; // import this for compatibility!
 import 'leaflet/dist/leaflet.css';
 import MetroLayer from './layers/MetroLayer';
 
@@ -12,11 +11,26 @@ const DinoMap = () => {
     const [layers, setLayers] = useState({ metro: true, bus: false, train: false, air: false });
 
     useEffect(() => {
-        // websockets connection
+        // WEBSOCKET connection goes here
         const client = new Client({
-            webSocketFactory: () => new SockJS('http://localhost:8080/ws'), // Use SockJS factory
+            // direct WebSocket URL (note the 'ws://')
+            brokerURL: 'ws://localhost:8080/ws', 
+            
+            // Standard Headers
+            connectHeaders: {},
+            
+            // debugging to help see if data is flowing
+            debug: function (str) {
+                console.log(str);
+            },
+            
+            // reconnect logic (auto-reconnects if server restarts)
+            reconnectDelay: 5000, 
+            heartbeatIncoming: 4000,
+            heartbeatOutgoing: 4000,
+
             onConnect: () => {
-                console.log("Connected to Velociraptor-Socket!");
+                console.log("Connected via Native WebSockets!");
                 client.subscribe('/topic/transport', (message) => {
                     setTransportData(JSON.parse(message.body));
                 });

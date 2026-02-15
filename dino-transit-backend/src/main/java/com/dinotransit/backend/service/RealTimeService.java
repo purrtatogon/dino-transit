@@ -19,13 +19,12 @@ public class RealTimeService {
         this.webSocketTemplate = webSocketTemplate;
     }
 
-    // run every 3 seconds!
-    @Scheduled(fixedRate = 3000)
+    // update every 500ms (which is 0.5 seconds)
+    @Scheduled(fixedRate = 500)
     public void broadcastUpdates() {
-        TransportUpdate metroUpdate = jurassicRailService.getSimulatedMetro();
+        // get the whole fleet
+        List<TransportUpdate> updates = jurassicRailService.getSimulatedFleet();
 
-        // push the list of updates to the frontend topic
-        webSocketTemplate.convertAndSend("/topic/transport", List.of(metroUpdate));
-        System.out.println("Broadcasted Metro update: " + metroUpdate);
+        webSocketTemplate.convertAndSend("/topic/transport", updates);
     }
 }

@@ -12,8 +12,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        // this allows the React frontend (running on port 3000) to connect
-        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
+        // For Native WebSockets
+        registry.addEndpoint("/ws")
+                .setAllowedOriginPatterns("*");
+
+        // keeping this for now for SockJS support
+        registry.addEndpoint("/ws")
+                .setAllowedOriginPatterns("*")
+                .withSockJS();
     }
 
     @Override
