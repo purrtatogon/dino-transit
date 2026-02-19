@@ -1,0 +1,664 @@
+.plannerPanel {
+  order: 2;
+  position: relative;
+  z-index: 1200;
+  width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0;
+  background: #ffffff;
+  border-left: 3px solid #111111;
+  border-right: 3px solid #111111;
+  overflow: hidden;
+  transform: none;
+  transition: none;
+}
+
+.plannerChrome {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  background: #ffffff;
+}
+
+.plannerHeaderBand {
+  flex-shrink: 0;
+  min-height: 16rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0.85rem 1rem;
+  background: #0b3d36;
+  color: #ffffff;
+  border-bottom: 3px solid #04221e;
+}
+
+.plannerBrandWordmark {
+  margin: 0 0 0.85rem;
+  font-family: 'Atkinson Hyperlegible', Arial, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  text-align: left;
+}
+
+.panelModeTitle {
+  margin: 0 0 2rem;
+  font-family: 'Atkinson Hyperlegible', Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #dff8f3;
+  text-align: left;
+}
+
+.journeyRow {
+  --journey-control-nudge: 0.28rem;
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+
+/* Track column + fields share height so the spine can align to combobox rows. */
+.journeyBody {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: stretch;
+  gap: 0.65rem;
+}
+
+/* Vertical spine: squares centered on each combobox; spacers + flex rail match journeyFields height. */
+.journeyTrack {
+  --j-label-line: 1.125rem;
+  --j-field-gap: 0.35rem;
+  --j-trigger-min-h: 2.75rem;
+  --j-square-half: 0.3125rem; /* half of 10px trackEnd */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  width: 0.875rem;
+  flex-shrink: 0;
+  min-height: 0;
+  transform: translateY(var(--journey-control-nudge, 0.28rem));
+}
+
+.spineSpacerTop {
+  flex: 0 0 auto;
+  height: calc(
+    var(--j-label-line) + var(--j-field-gap) + var(--j-trigger-min-h) / 2 - var(--j-square-half)
+  );
+  min-height: 0;
+}
+
+.spineSpacerBottom {
+  flex: 0 0 auto;
+  height: calc(var(--j-trigger-min-h) / 2 - var(--j-square-half));
+  min-height: 0;
+}
+
+.trackEnd {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+  background: #ffffff;
+  border: 2px solid #04221e;
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+
+.trackRail {
+  flex: 1 1 auto;
+  width: 3px;
+  min-height: 0.25rem;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 1px;
+}
+
+.journeyFields {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.transitFieldLabel {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #dff8f3;
+}
+
+.transitSelect {
+  width: 100%;
+  min-height: 2.75rem;
+  margin: 0;
+  padding: 0.45rem 0.5rem;
+  border: 2px solid #04221e;
+  border-radius: 0.45rem;
+  background: #06302a;
+  color: #ffffff;
+  font-family: 'Atkinson Hyperlegible', Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.transitSelect option {
+  color: #0b1522;
+  background: #ffffff;
+}
+
+.swapStationsBtn {
+  position: relative;
+  z-index: 2;
+  align-self: center;
+  flex-shrink: 0;
+  min-width: 3rem;
+  width: auto;
+  min-height: 44px;
+  height: 44px;
+  margin: 0;
+  transform: translateY(var(--journey-control-nudge, 0.28rem));
+  padding: 0 0.5rem;
+  border: 2px solid #ffffff;
+  border-radius: 0.45rem;
+  background: #04221e;
+  color: #ffffff;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swapStationsBtn:focus-visible {
+  outline: 3px solid #fcc200;
+  outline-offset: 3px;
+}
+
+.swapStationsIcon {
+  display: block;
+  transform: translateY(-1px);
+}
+
+.wipHeaderSummary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  padding: 0.15rem 0 0;
+}
+
+.wipHeaderTitle {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.wipHeaderSub {
+  margin: 0.35rem 0 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #dff8f3;
+}
+
+.plannerToolbar {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 0.85rem;
+  background: #ffffff;
+  border-bottom: 2px solid #111111;
+}
+
+.toolbarBtn {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 1rem;
+  border: 2px solid #111111;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #0b1522;
+  font-family: 'Atkinson Hyperlegible', Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.toolbarBtnRefresh {
+  border-radius: 0.45rem;
+}
+
+.toolbarBtn:focus-visible {
+  outline: 3px solid #fcc200;
+  outline-offset: 2px;
+}
+
+.plannerScrollBody {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0.85rem 0.85rem 1rem;
+  background: #f5f7fa;
+}
+
+.plannerBodyIntro {
+  margin: 0 0 0.85rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #0b1522;
+  font-weight: 600;
+}
+
+.routeCard {
+  margin: 0 0 1rem;
+  padding: 0.75rem 0.65rem;
+  border: 2px solid #111111;
+  border-radius: 0.5rem;
+  background: #ffffff;
+}
+
+.resultCardTitle {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #0b1522;
+}
+
+.suggestedRouteTitle {
+  letter-spacing: 0.04em;
+}
+
+.routeEmpty {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0b1522;
+}
+
+.routeStep {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.35rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #0b1522;
+}
+
+.routeStepText {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+.routeStepDino {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  object-fit: contain;
+  image-rendering: pixelated;
+  border: 2px solid #111111;
+  border-radius: 0.35rem;
+  background: #f5f2e9;
+}
+
+.routeStepDinoSpacer {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+}
+
+.pillRowList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pillRowBlock {
+  margin: 0;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid #c5cdd8;
+}
+
+.pillRowBlock:last-child {
+  border-bottom: none;
+}
+
+.pillRowLine {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.pillRowTextColumn {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding-top: 0.15rem;
+}
+
+.pillRowActiveLine {
+  margin: 0;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: left;
+  color: #2a3545;
+}
+
+.lineDinoIcon {
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  object-fit: contain;
+  image-rendering: pixelated;
+  border: 2px solid #111111;
+  border-radius: 0.35rem;
+  background: #f5f2e9;
+}
+
+.pillRowText {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #0b1522;
+}
+
+.liveLineActivitySection {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 2px solid #111111;
+}
+
+.liveLineActivityTitleRow {
+  margin: 0 0 0.5rem;
+  font-family: 'Atkinson Hyperlegible', Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
+  color: #0b1522;
+}
+
+.liveLineIntroInline {
+  font-weight: 600;
+}
+
+.liveLineActivityTitleSuffix {
+  font-weight: 800;
+}
+
+.wipStatusCard {
+  display: flex;
+  flex-direction: column;
+  min-height: min(52vh, 480px);
+  padding: 0.85rem 0.75rem 1rem;
+  border: 2px solid #111111;
+  border-radius: 0.5rem;
+  background: #ffffff;
+}
+
+.wipCardTop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.wipCardTitle {
+  margin: 0;
+  color: #0b1f3b;
+  text-transform: uppercase;
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.hatchingPill {
+  margin: 0.65rem 0 0;
+  padding: 0.4rem 0.75rem;
+  border: 2px solid #0b1f3b;
+  border-radius: 999px;
+  background: #fff6cc;
+  color: #0b1f3b;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.wipCardBody {
+  margin: 1rem 0 auto;
+}
+
+.wipText {
+  margin: 0;
+  color: #0f1a28;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.wipText + .wipText {
+  margin-top: 1rem;
+}
+
+.wipIconWrap {
+  width: 64px;
+  height: 64px;
+  margin: 1.35rem auto 0.9rem;
+  border: 2px solid #1a1a1a;
+  border-radius: 0;
+  background: #f5f2e9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wipEggImage {
+  width: 42px;
+  height: 42px;
+  image-rendering: pixelated;
+}
+
+.primaryRideButton {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 1.2rem;
+  border: 2px solid #111111;
+  border-radius: 0;
+  background: #0b1f3b;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.primaryRideButton:focus-visible {
+  outline: 3px solid #fcc200;
+  outline-offset: 2px;
+}
+
+.panelOpen {
+  display: flex;
+}
+
+.panelClosed {
+  display: none;
+}
+
+.stepList {
+  margin: 0.4rem 0 0;
+  padding-left: 1.2rem;
+}
+
+@media (max-width: 899px) {
+  .plannerPanel {
+    border-right: none;
+    border-top: 3px solid #111111;
+    overflow: visible;
+  }
+
+  .plannerScrollBody {
+    overflow: visible;
+  }
+
+  .panelOpen {
+    display: flex;
+  }
+
+  .panelClosed {
+    display: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .plannerPanel {
+    order: 2;
+    width: min(38rem, 42vw);
+    max-width: 40rem;
+    height: 100%;
+    border-top: none;
+    border-left: none;
+    border-right: 3px solid #111111;
+  }
+
+  .plannerPanel.panelClosed {
+    display: flex;
+  }
+}
+
+@media (min-width: 1200px) {
+  .plannerPanel {
+    width: min(42rem, 44vw);
+    max-width: 44rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .wipIconWrap {
+    width: 56px;
+    height: 56px;
+  }
+
+  .wipEggImage {
+    width: 38px;
+    height: 38px;
+  }
+
+  .wipText {
+    font-size: 1.05rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plannerPanel {
+    transition: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .routeCard {
+    border-width: 3px;
+  }
+
+  .wipStatusCard {
+    border-width: 3px;
+  }
+
+  .plannerToolbar {
+    border-bottom-width: 3px;
+  }
+
+  .lineDinoIcon {
+    border-width: 3px;
+  }
+
+  .routeStepDino {
+    border-width: 3px;
+  }
+
+  .pillRowActiveLine {
+    color: #0b1522;
+  }
+
+  .plannerBodyIntro {
+    color: #000000;
+  }
+
+  .liveLineActivityTitleRow {
+    color: #000000;
+  }
+
+  .swapStationsBtn {
+    border-width: 3px;
+  }
+
+  .toolbarBtn {
+    border-width: 3px;
+  }
+
+  .primaryRideButton {
+    border-width: 3px;
+  }
+}
+
+@media (forced-colors: active) {
+  .swapStationsBtn:focus-visible {
+    outline: 3px solid Highlight;
+  }
+
+  .toolbarBtn:focus-visible {
+    outline: 3px solid Highlight;
+  }
+
+  .primaryRideButton:focus-visible {
+    outline: 3px solid Highlight;
+  }
+
+  .routeCard {
+    border-color: CanvasText;
+  }
+
+  .wipStatusCard {
+    border-color: CanvasText;
+  }
+
+  .plannerPanel {
+    border-color: CanvasText;
+  }
+
+  .lineDinoIcon {
+    border-color: CanvasText;
+  }
+
+  .routeStepDino {
+    border-color: CanvasText;
+  }
+}
