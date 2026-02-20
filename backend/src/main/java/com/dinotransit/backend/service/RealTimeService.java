@@ -6,8 +6,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-// this is the "broadcaster"
-
 @Service
 public class RealTimeService {
 
@@ -19,10 +17,8 @@ public class RealTimeService {
         this.webSocketTemplate = webSocketTemplate;
     }
 
-    // update every 500ms (which is 0.5 seconds)
     @Scheduled(fixedRate = 500)
     public void broadcastUpdates() {
-        // get the whole fleet
         List<TransportUpdate> updates = jurassicRailService.getSimulatedFleet();
 
         webSocketTemplate.convertAndSend("/topic/transport", updates);

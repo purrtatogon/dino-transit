@@ -1,27 +1,31 @@
 # 🧠 Dino Transit Backend
 
-The core orchestration engine for the Dino Transit ecosystem. This service simulates vehicle movements, ingests real-time API data, and broadcasts synchronized updates to connected clients.
+The orchestration engine for **Dino Transit** — simulates metro trains, broadcasts real-time updates via WebSockets, and (planned) ingests GTFS/API data for Lisbon transit.
 
 ## ⚡ Features
 
-- **Real-Time Simulation:** `JurassicRailService` simulates Metro trains with realistic physics (acceleration, station stops).
+- **Metro Simulation:** `JurassicRailService` simulates all four Lisbon Metro lines (Green, Red, Blue, Yellow) with station stops and direction-aware sprites.
 - **WebSocket Broadcasting:** Pushes updates every 500ms to `/topic/transport`.
-- **GTFS Integration:** (Planned) Ingests standard transit feeds for accurate scheduling.
+- **Direction Calculation:** Computes east/west/north/south from track geometry for correct sprite orientation.
 
-## 🛠️ Setup & Run
+## 🛠️ Tech Stack
+
+- Spring Boot 3, WebSocket (Stomp), Scheduler
+
+## 🚀 Setup & Run
 
 ### Prerequisites
 
-- Java 17 or higher
-- Maven (Wrapper included)
+- Java 21+
+- Maven (wrapper included: `./mvnw`)
 
 ### Commands
-
-**Run the Application:**
 
 ```bash
 ./mvnw spring-boot:run
 ```
+
+_Server starts on `http://localhost:8080`_
 
 **Run Tests:**
 
@@ -29,18 +33,29 @@ The core orchestration engine for the Dino Transit ecosystem. This service simul
 ./mvnw test
 ```
 
-## API Endpoints
+## 📡 WebSocket API
 
-- **WebSocket:** ws://localhost:8080/ws
-- **Topic:** /topic/transport
-- **Payload Example:**
+- **Endpoint:** `ws://localhost:8080/ws`
+- **Topic:** `/topic/transport`
+- **Payload:** Array of `TransportUpdate` objects.
+
+**TransportUpdate Example:**
 
 ```json
 {
   "type": "Metro",
-  "dinoName": "Metro-01",
+  "dinoName": "Metro-G-S1",
   "status": "Moving",
-  "latitude": 38.706,
-  "longitude": -9.144
+  "latitude": 38.742,
+  "longitude": -9.144,
+  "direction": "south",
+  "lineColor": "green"
 }
 ```
+
+- **direction:** `"east"` | `"west"` | `"north"` | `"south"` — used for sprite selection.
+- **lineColor:** `"green"` | `"red"` | `"blue"` | `"yellow"` — metro line color.
+
+## ⚙️ Configuration
+
+- **application.properties:** `spring.docker.compose.enabled=false` — disables Docker Compose when Docker is not running.
