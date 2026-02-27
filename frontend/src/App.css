@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Silkscreen:wght@400;700&display=swap');
+
 .App {
   text-align: center;
 }
@@ -35,4 +37,174 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* =========================================
+   DINO-TRANSIT: STATION LAYER STYLES 
+   ========================================= */
+
+.station-label-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; 
+}
+
+.pixel-station-sign {
+  font-family: 'Silkscreen', sans-serif;
+  font-size: 10px; 
+  font-weight: 400;
+  padding: 2px 6px;
+  background-color: rgba(255, 255, 255, 0.9); 
+  border: 2px solid #000;
+  border-radius: 4px;
+  white-space: nowrap;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.4); 
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.green-line-sign {
+  border-color: #00A651;
+  color: #00A651;
+}
+
+.red-line-sign {
+  border-color: #ED1C24;
+  color: #ED1C24;
+}
+
+.blue-line-sign {
+  border-color: #0072CE;
+  color: #0072CE;
+}
+
+.yellow-line-sign {
+  border-color: #FFD100;
+  color: #c4a100; 
+}
+
+body {
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+}
+
+/* =========================================
+   WCAG-COMPLIANT TERMINAL STATIONS
+   ========================================= */
+
+.pixel-station-sign.terminal-sign {
+  font-weight: 700;
+  border-width: 3px;
+  padding: 3px 8px;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  animation: retro-bounce 1.5s infinite steps(2);
+}
+
+.green-line-sign.terminal-sign {
+  background-color: #00A651;
+  color: #000000; 
+}
+
+.red-line-sign.terminal-sign {
+  background-color: #ED1C24;
+  color: #000000; 
+}
+
+.blue-line-sign.terminal-sign {
+  background-color: #0072CE;
+  color: #000000; 
+}
+
+.yellow-line-sign.terminal-sign {
+  background-color: #FFD100;
+  color: #000000; 
+}
+
+/* =========================================
+   8-BIT ANIMATIONS & #A11Y OVERRIDES
+   ========================================= */
+
+@keyframes retro-bounce {
+  0%, 100% {
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 1);
+    transform: translateY(0px);
+  }
+  50% {
+    box-shadow: 5px 5px 0px rgba(0, 0, 0, 1);
+    transform: translateY(-3px);
+  }
+}
+
+/* ♿ WCAG 2.3.3 compliance: Disable animations for users with motion sensitivity */
+@media (prefers-reduced-motion: reduce) {
+  .pixel-station-sign.terminal-sign {
+    animation: none;
+    transform: none;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* =========================================
+   RPG WIP DIALOGUE BOX
+   ========================================= */
+
+   .retro-dialog-overlay {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 600px;
+    z-index: 2000;
+}
+
+.retro-dialog-box {
+    background-color: #0000aa; /* Classic Final Fantasy Blue */
+    border: 4px solid #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    box-shadow: 6px 6px 0px rgba(0,0,0,0.8);
+    color: white;
+    font-family: 'Silkscreen', 'Courier New', monospace;
+    position: relative;
+}
+
+.retro-close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-family: 'Silkscreen', monospace;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.retro-close-btn:hover {
+    color: #FFD100;
+}
+
+.retro-dialog-avatar {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(0,0,0,0.3);
+    border: 2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.pixel-dino-large {
+    width: 64px;
+    height: 64px;
+    image-rendering: pixelated;
+}
+
+.retro-dialog-content p {
+    font-size: 14px;
+    line-height: 1.4;
 }

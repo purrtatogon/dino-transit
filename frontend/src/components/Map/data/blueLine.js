@@ -1,0 +1,21 @@
+// Ordered West (Reboleira) to East/South (Santa Apolónia)
+export const BLUE_LINE_STATIONS = [
+    { name: "Reboleira", coords: [38.7522, -9.2241] },
+    { name: "Amadora Este", coords: [38.7587, -9.2179] },
+    { name: "Alfornelos", coords: [38.7603, -9.2045] },
+    { name: "Pontinha", coords: [38.7622, -9.1969] },
+    { name: "Carnide", coords: [38.7592, -9.1927] },
+    { name: "Colégio Militar/Luz", coords: [38.7531, -9.1894] },
+    { name: "Alto dos Moinhos", coords: [38.7475, -9.1805] },
+    { name: "Laranjeiras", coords: [38.7423, -9.1725] },
+    { name: "Jardim Zoológico", coords: [38.7412, -9.1685] },
+    { name: "Praça de Espanha", coords: [38.7376, -9.1595] },
+    { name: "São Sebastião", coords: [38.7340, -9.1530] },
+    { name: "Parque", coords: [38.7291, -9.1504] },
+    { name: "Marquês de Pombal", coords: [38.7259, -9.1500] },
+    { name: "Avenida", coords: [38.7203, -9.1453] },
+    { name: "Restauradores", coords: [38.7156, -9.1416] },
+    { name: "Baixa-Chiado", coords: [38.7100, -9.1390] },
+    { name: "Terreiro do Paço", coords: [38.7072, -9.1328] },
+    { name: "Santa Apolónia", coords: [38.7137, -9.1221] },
+];
