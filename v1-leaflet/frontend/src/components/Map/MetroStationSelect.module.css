@@ -1,0 +1,199 @@
+.wrap {
+  position: relative;
+  width: 100%;
+}
+
+.trigger {
+  position: relative;
+  width: 100%;
+  min-height: 2.75rem;
+  margin: 0;
+  padding: 0.35rem 2rem 0.35rem 0.4rem;
+  border: 2px solid #04221e;
+  border-radius: 0.45rem;
+  background: #06302a;
+  color: #ffffff;
+  font-family: 'Atkinson Hyperlegible', Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.35rem;
+  box-sizing: border-box;
+}
+
+.triggerValue {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.stationLineBadge {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0.35rem;
+  min-width: 0;
+  max-width: 100%;
+  flex: 0 1 auto;
+}
+
+.triggerValue .optionLabel {
+  color: #ffffff;
+}
+
+.triggerChevron {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.25rem;
+  height: 1.25rem;
+  pointer-events: none;
+  color: #ffffff;
+  font-size: 0.65rem;
+  line-height: 1.25rem;
+  text-align: center;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 0.2rem;
+}
+
+.triggerPlaceholder {
+  flex: 1;
+  min-width: 0;
+  color: #dff8f3;
+  font-weight: 600;
+}
+
+.optionRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 2.75rem;
+  padding: 0.35rem 0.45rem;
+  box-sizing: border-box;
+  border-bottom: 1px solid #c5cdd8;
+}
+
+.optionRow:last-child {
+  border-bottom: none;
+}
+
+.optionRowSelected {
+  background: #e8f2ff;
+}
+
+.optionRowActive {
+  background: #f0f6ff;
+}
+
+.optionLabel {
+  flex: 0 1 auto;
+  min-width: 0;
+  align-self: center;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #0b1522;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rail {
+  width: 4px;
+  flex-shrink: 0;
+  align-self: stretch;
+  min-height: 2rem;
+  border: 2px solid #111111;
+  border-radius: 1px;
+}
+
+.railGreen {
+  background: #00aaa6;
+}
+
+.railRed {
+  background: #ee2b74;
+}
+
+.railBlue {
+  background: #4e84c4;
+}
+
+.railYellow {
+  background: #fdb913;
+}
+
+.listbox {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 1400;
+  max-height: min(42vh, 22rem);
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #111111 #e8edf5;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: #ffffff;
+  border: 2px solid #111111;
+  border-radius: 0.45rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.listbox::-webkit-scrollbar {
+  width: 10px;
+}
+
+.listbox::-webkit-scrollbar-track {
+  background: #e8edf5;
+  border-left: 1px solid #111111;
+}
+
+.listbox::-webkit-scrollbar-thumb {
+  background: #111111;
+  border: 2px solid #e8edf5;
+  border-radius: 4px;
+}
+
+.listbox::-webkit-scrollbar-thumb:hover {
+  background: #2a3545;
+}
+
+.option {
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+@media (prefers-contrast: more) {
+  .rail {
+    border-width: 3px;
+  }
+
+  .listbox {
+    border-width: 3px;
+  }
+
+  .trigger {
+    border-width: 3px;
+  }
+}
+
+@media (forced-colors: active) {
+  .rail {
+    border-color: CanvasText;
+  }
+}
