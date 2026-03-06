@@ -4,20 +4,20 @@
 
 This project visualizes the Lisbon Metro, Carris Bus, and Air Traffic networks as a living, breathing prehistoric ecosystem. It leverages **Spring Boot** for real-time data orchestration and **React Leaflet** for a retro-styled map interface.
 
-![Dino Transit Screenshot](frontend/public/assets/sprites/brachiosaurus_walk_green.gif) _(Placeholder: I'll add a real screenshot later!)_
+![Dino Transit Screenshot](frontend/public/assets/sprites/brachio_greenline_east_walk.gif) _(Placeholder: I'll add a real screenshot later!)_
 
 ## 🏗️ Architecture
 
 The project is a monorepo containing:
 
-- **`backend/`**: A Spring Boot application (Java 17) that ingests transit data (GTFS/API) and broadcasts updates via WebSockets.
+- **`backend/`**: A Spring Boot application (Java 21) that ingests transit data (GTFS/API) and broadcasts updates via WebSockets.
 - **`frontend/`**: A React (Vite) application that visualizes the vehicles on a pixel-art style map using Leaflet.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- **Java 17+**
+- **Java 21+**
 - **Node.js 18+** & **npm**
 
 ### Quick Start
@@ -37,7 +37,7 @@ The project is a monorepo containing:
     npm install
     npm run dev
     ```
-    _Open `http://localhost:5173` (or the port Vite assigns) in your browser._
+    _Open `http://localhost:5500` in your browser._
 
 ## 🦕 The Dino-Fleet
 
@@ -52,4 +52,10 @@ The project is a monorepo containing:
 
 - **Backend:** Spring Boot 3, WebSocket (Stomp), Scheduler
 - **Frontend:** React, Vite, Leaflet, SockJS
-- **Assets:** Custom Pixel Art Sprites
+- **Assets:** Pixel art sprites (see Assets & Credits)
+
+## 🎨 Assets & Credits
+
+- **Original sprites:** [teaceratops](https://teaceratops.itch.io/) — Dinosaur Sprites (GB Studio Compatible). The green metro line uses these as-is.
+- **Re-colored variants:** The blue, red, yellow, and other metro line colors are my own palette edits of the originals.
+- **Future:** I may create fully custom sprites someday.

@@ -1,32 +1,33 @@
 # 🗺️ Dino Transit Frontend
 
-A retro-styled dashboard built with **React** and **Leaflet**. It connects to the backend via WebSockets to render a live, animated map of the transit network.
+The map interface for **Dino Transit** — a real-time digital twin of Lisbon's public transportation, reimagined with dinosaurs. Built with **React**, **Vite**, and **Leaflet**, connecting to the backend via WebSockets.
 
 ## 🎨 Features
 
-- **Live Map:** Renders moving vehicles on a custom "Pixelated" map style.
-- **Sprite Animation:** Handles state changes (Walking vs. Idle) and directional flipping.
-- **Layer Control:** Toggle visibility for Metro, Bus, Train, and Air layers.
+- **Live Map:** Renders moving Brachiosaurus sprites on a pixel-art style map of Lisbon.
+- **4-Direction Sprites:** East, west, north, south — walking and idle states per direction.
+- **Layer Control:** Toggle Metro visibility; Bus, Train, and Air show WIP modals.
+- **Station Labels:** Pixel-style station signs along the Green line.
 
-## 🛠️ Setup & Run
+## 🛠️ Tech Stack
+
+- React, Vite, Leaflet, SockJS (@stomp/stompjs)
+
+## 🚀 Setup & Run
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 18+ & npm
+- Backend running on `http://localhost:8080` (for live data)
 
 ### Commands
 
-**Install Dependencies:**
-
 ```bash
 npm install
-```
-
-**Start Development Server:**
-
-```bash
 npm run dev
 ```
+
+_Opens at `http://localhost:5500`_
 
 **Build for Production:**
 
@@ -34,8 +35,13 @@ npm run dev
 npm run build
 ```
 
-## Key Components
+_Output: `build/`_
 
-- **DinoMap.jsx:** Main map container and WebSocket connection manager.
-- **layers/:** Logic for individual transport modes (e.g., MetroLayer.jsx).
-- **assets/sprites/:** Pixel art assets for the dinosaur fleet.
+## 📁 Key Components
+
+- **DinoMap.jsx** — Main map container, WebSocket connection, layer toggles.
+- **layers/MetroLayer.jsx** — Renders metro polylines and dino markers.
+- **layers/StationLayer.jsx** — Station labels.
+- **ui/WipModal.jsx** — Modal for Bus, Train, Air (WIP).
+- **data/** — Line coordinates (greenLine, redLine, blueLine, yellowLine).
+- **public/assets/sprites/** — Pixel art sprites (see root README → Assets & Credits).
