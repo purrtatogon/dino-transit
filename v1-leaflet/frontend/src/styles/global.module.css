@@ -1,0 +1,28 @@
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.focusVisible:focus-visible {
+  outline: 3px solid #fcc200;
+  outline-offset: 2px;
+}
+
+@media (prefers-contrast: more) {
+  .focusVisible:focus-visible {
+    outline-width: 4px;
+  }
+}
+
+@media (forced-colors: active) {
+  .focusVisible:focus-visible {
+    outline: 3px solid Highlight;
+  }
+}
