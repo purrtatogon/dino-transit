@@ -120,7 +120,7 @@ public class JurassicRailService {
 
         if (startLat == endLat && startLng == endLng) return "east";
 
-        // Latitude = Y axis, Longitude = X axis
+        // remember: lat is Y, lng is X when you think in map coords
         double dy = endLat - startLat;
         double dx = endLng - startLng;
 
