@@ -1,4 +1,4 @@
-// Ordered West (São Sebastião) to East (Aeroporto)
+// West → east
 export const RED_LINE_STATIONS = [
     { name: "São Sebastião", coords: [38.7340, -9.1530] },
     { name: "Saldanha", coords: [38.7340, -9.1450] },

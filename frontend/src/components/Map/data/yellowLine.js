@@ -1,4 +1,4 @@
-// Ordered North (Odivelas) to South (Rato)
+// North → south
 export const YELLOW_LINE_STATIONS = [
     { name: "Odivelas", coords: [38.7934, -9.1734] },
     { name: "Senhor Roubado", coords: [38.7857, -9.1718] },

@@ -1,4 +1,4 @@
-// Ordered from Telheiras (North) to Cais do Sodré (South)
+// Stops run north → south. You can add labelOffset / labelAnchor on a stop if the auto layout looks wrong.
 export const GREEN_LINE_STATIONS = [
     { name: "Telheiras", coords: [38.7602, -9.1661] },
     { name: "Campo Grande", coords: [38.7500, -9.1500] },

@@ -1,4 +1,4 @@
-// Ordered West (Reboleira) to East/South (Santa Apolónia)
+// West / north end → Santa Apolónia
 export const BLUE_LINE_STATIONS = [
     { name: "Reboleira", coords: [38.7522, -9.2241] },
     { name: "Amadora Este", coords: [38.7587, -9.2179] },

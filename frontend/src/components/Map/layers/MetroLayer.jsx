@@ -1,5 +1,5 @@
 import React from 'react';
-import { Marker, Popup, Polyline } from 'react-leaflet';
+import { Marker, Pane, Popup, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import { GREEN_LINE_STATIONS } from '../data/greenLine';
 import { RED_LINE_STATIONS } from '../data/redLine';
@@ -7,11 +7,21 @@ import { BLUE_LINE_STATIONS } from '../data/blueLine';
 import { YELLOW_LINE_STATIONS } from '../data/yellowLine';
 
 const LINE_COLORS = {
-    green: '#00A651',
-    red: '#ED1C24',
-    blue: '#0072CE',
-    yellow: '#FFD100',
+    blue: '#4e84c4',
+    yellow: '#fdb913',
+    green: '#00aaa6',
+    red: '#ee2b74'
 };
+const LINE_CASING_COLOR = '#111111';
+
+// Leaflet panes: lines sit under nodes, leaders, trains, then labels
+const METRO_LINES_PANE_Z = 520;
+
+const TRAIN_MARKERS_PANE_Z = 600;
+
+const SPRITE_PX = 48;
+const SPRITE_ANCHOR_X = SPRITE_PX / 2;
+const SPRITE_ANCHOR_Y = SPRITE_PX;
 
 const LINES = [
     { data: GREEN_LINE_STATIONS, color: LINE_COLORS.green },
@@ -63,48 +73,65 @@ const createDinoIcon = (status, lineColor, direction) => {
     return L.divIcon({
         className: 'dino-wrapper',
         html: `<img src="${spriteUrl}" class="pixel-dino" alt="${color} dino facing ${currentDirection}" />`,
-        iconSize: [64, 64],
-        iconAnchor: [32, 64],
-        popupAnchor: [0, -60]
+        iconSize: [SPRITE_PX, SPRITE_PX],
+        iconAnchor: [SPRITE_ANCHOR_X, SPRITE_ANCHOR_Y],
+        popupAnchor: [0, Math.round(-SPRITE_PX * 0.94)]
     });
 };
 
 const MetroLayer = ({ data }) => {
     const metros = data.filter(d => d.type === 'Metro');
 
-    const lineStyle = {
-        weight: 6,
-        opacity: 0.7,
-        lineCap: 'round',
-        dashArray: '1, 10',
+    const casingStyle = {
+        weight: 12,
+        opacity: 0.95,
+        lineCap: 'butt',
+        lineJoin: 'miter',
+        className: 'pixel-line-casing'
+    };
+
+    const colorLineStyle = {
+        weight: 8,
+        opacity: 1,
+        lineCap: 'butt',
+        lineJoin: 'miter',
         className: 'pixel-line'
     };
 
     return (
         <>
-            {LINES.map((line) => (
-                <Polyline
-                    key={line.color}
-                    positions={line.data.map(s => s.coords)}
-                    pathOptions={{ ...lineStyle, color: line.color }}
-                />
-            ))}
+            <Pane name="metroLinesPane" style={{ zIndex: METRO_LINES_PANE_Z }}>
+                {LINES.map((line) => (
+                    <React.Fragment key={line.color}>
+                        <Polyline
+                            positions={line.data.map((s) => s.coords)}
+                            pathOptions={{ ...casingStyle, color: LINE_CASING_COLOR }}
+                        />
+                        <Polyline
+                            positions={line.data.map((s) => s.coords)}
+                            pathOptions={{ ...colorLineStyle, color: line.color }}
+                        />
+                    </React.Fragment>
+                ))}
+            </Pane>
 
-            {metros.map((train) => {
-                const icon = createDinoIcon(train.status, train.lineColor, train.direction);
-                return (
-                    <Marker
-                        key={train.dinoName}
-                        position={[train.latitude, train.longitude]}
-                        icon={icon}
-                    >
-                        <Popup>
-                            <strong>{train.dinoName}</strong><br />
-                            Status: {train.status}
-                        </Popup>
-                    </Marker>
-                );
-            })}
+            <Pane name="metroTrainSpritesPane" style={{ zIndex: TRAIN_MARKERS_PANE_Z }}>
+                {metros.map((train) => {
+                    const icon = createDinoIcon(train.status, train.lineColor, train.direction);
+                    return (
+                        <Marker
+                            key={train.dinoName}
+                            position={[train.latitude, train.longitude]}
+                            icon={icon}
+                        >
+                            <Popup>
+                                <strong>{train.dinoName}</strong><br />
+                                Status: {train.status}
+                            </Popup>
+                        </Marker>
+                    );
+                })}
+            </Pane>
         </>
     );
 };
