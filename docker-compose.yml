@@ -1,0 +1,18 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8181:8181"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - PORT=8181
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        - VITE_WS_URL=ws://localhost:8181/ws
+    ports:
+      - "5500:80"
+    depends_on:
+      - backend
