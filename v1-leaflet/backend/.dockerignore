@@ -1,0 +1,20 @@
+# Maven output (rebuilt inside the image)
+target/
+
+# Git
+.git
+.gitignore
+
+# IDE / editor
+.idea
+*.iml
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docs and local tooling (not needed to build the JAR)
+*.md
