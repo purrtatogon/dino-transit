@@ -8,7 +8,11 @@ The idea is to blend Lisbon public transport with a retro pixel look and live up
 
 I am still figuring a lot of this out—especially how far to push **WCAG 2.2 AAA** (contrast, focus, screen reader wording) while keeping the Game Boy–ish vibe. The repo includes accessibility notes I treat as a north star, not a finished audit.
 
-![Dino Transit](frontend/public/assets/sprites/brachio_greenline_east_walk.gif) _(Placeholder until I add a real app screenshot.)_
+![Dino Transit](docs/images/dinotransit_intro_image.png)
+
+## Live site
+
+This is the first deployment of the project: the frontend and backend are hosted separately on [Render](https://render.com). The public frontend is at **[https://dino-transit-frontend.onrender.com/](https://dino-transit-frontend.onrender.com/)**.
 
 ## Architecture
 
