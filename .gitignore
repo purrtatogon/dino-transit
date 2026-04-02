@@ -30,3 +30,12 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Local accessibility working note (filename starts with #)
+\# Dino-Transit:ACCESSIBILITY_SPEC.md
+
+# Frontend production build output (regenerate with npm run build)
+frontend/build/
+
+# Local helper scripts (not part of the published repo)
+scripts/

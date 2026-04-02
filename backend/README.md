@@ -1,45 +1,40 @@
-# 🧠 Dino Transit Backend
+# Dino Transit — Backend
 
-The orchestration engine for **Dino Transit** — simulates metro trains, broadcasts real-time updates via WebSockets, and (planned) ingests GTFS/API data for Lisbon transit.
+Spring Boot service for **Dino Transit**: simulates metro trains on all four lines, computes direction from track geometry, and broadcasts `TransportUpdate` payloads over WebSockets.
 
-## ⚡ Features
+Real GTFS / API ingestion is still on the roadmap; right now the metro loop is **simulated** so the frontend can be exercised end-to-end.
 
-- **Metro Simulation:** `JurassicRailService` simulates all four Lisbon Metro lines (Green, Red, Blue, Yellow) with station stops and direction-aware sprites.
-- **WebSocket Broadcasting:** Pushes updates every 500ms to `/topic/transport`.
-- **Direction Calculation:** Computes east/west/north/south from track geometry for correct sprite orientation.
+## Features
 
-## 🛠️ Tech Stack
+- **Metro simulation** — `JurassicRailService` updates positions on a schedule and emits STOMP messages on `/topic/transport`.
+- **Directions** — `east` / `west` / `north` / `south` for sprite selection.
+- **Configurable port** — `server.port=${PORT:8080}` in `application.properties` (Docker Compose uses `8181` in the sample root file).
 
-- Spring Boot 3, WebSocket (Stomp), Scheduler
+## Stack
 
-## 🚀 Setup & Run
+Spring Boot 3, WebSocket message broker (STOMP), scheduled tasks.
 
-### Prerequisites
+## Run
 
-- Java 21+
-- Maven (wrapper included: `./mvnw`)
-
-### Commands
+**Prerequisites:** Java 21+.
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-_Server starts on `http://localhost:8080`_
-
-**Run Tests:**
+**Tests**
 
 ```bash
 ./mvnw test
 ```
 
-## 📡 WebSocket API
+## WebSocket API
 
-- **Endpoint:** `ws://localhost:8080/ws`
-- **Topic:** `/topic/transport`
-- **Payload:** Array of `TransportUpdate` objects.
+- **Endpoint:** `/ws` (plain WebSocket and SockJS registered on the same path—see `WebSocketConfig`).
+- **Broker topic:** `/topic/transport`
+- **Payload:** JSON array of `TransportUpdate` records.
 
-**TransportUpdate Example:**
+Example object:
 
 ```json
 {
@@ -53,9 +48,14 @@ _Server starts on `http://localhost:8080`_
 }
 ```
 
-- **direction:** `"east"` | `"west"` | `"north"` | `"south"` — used for sprite selection.
-- **lineColor:** `"green"` | `"red"` | `"blue"` | `"yellow"` — metro line color.
+- `direction`: `"east"` | `"west"` | `"north"` | `"south"`
+- `lineColor`: `"green"` | `"red"` | `"blue"` | `"yellow"`
 
-## ⚙️ Configuration
+## Configuration
 
-- **application.properties:** `spring.docker.compose.enabled=false` — disables Docker Compose when Docker is not running.
+- `spring.docker.compose.enabled=false` — avoids failing startup when Docker Compose is not running.
+- `PORT` — optional env var to override the default HTTP port.
+
+## Docker
+
+The backend ships with a `Dockerfile` in this folder; the repo root `docker-compose.yml` shows one way to run it next to the frontend.
