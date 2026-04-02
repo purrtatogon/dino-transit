@@ -1,6 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Silkscreen:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+/* Whole-page scale (~75% browser zoom). Use 100% zoom in the browser while developing.
+   Shell height uses --page-zoom so layout fills the viewport after zoom (avoids a bottom gap). */
+html {
+  --page-zoom: 0.75;
+  zoom: var(--page-zoom);
+}
+
 body {
   margin: 0;
   font-family: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
