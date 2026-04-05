@@ -1,56 +1,72 @@
-# Dino Transit — Frontend
+# Dino Transit — Frontend — v1.0
 
-React + Vite + Leaflet map for **Dino Transit**: live metro dinosaurs, station geometry, and a planner-style sidebar. Connects to the Spring Boot app over WebSockets.
+The **v1** browser client: **React 19**, **Vite 7**, **Leaflet**, and **`@stomp/stompjs`**. It draws Lisbon Metro lines, diagram-style stations, animated “dino” sprites, and a trip planner sidebar while consuming the Spring Boot WebSocket feed.
 
-Long term I want the app to be **multimodal** (metro, bus, train, air). Metro ships first; the other modes are placeholders until real data and sprites are wired up. I also hope to add a **Dino Transit logo or wordmark** and a **small first-visit animation** later—still on the wish list.
+**Read the [repository root README](../README.md) first** for the full story: **why v1 stays Leaflet** (and **Mapbox v2**), **live demo**, **screenshots**, **multimodal roadmap**, **design and accessibility**, **sprite credits**, and how **`TRANSIT_MODE`** on the server affects what you see. This file only covers **running and navigating this package**.
 
-## What it does today
+## v1 in one flow
 
-- Draws the four Lisbon Metro lines with **casing** on the polylines and **per-line** sprites (walk / idle, four directions).
-- **Station nodes** (`StationNodesLayer`) and **diagram-style labels** (`StationLabelsLayer`) with layout shared in `layers/stationLayerShared.js`.
-- **Mode toggles:** Metro is live; Bus, Train, and Air use the same **pet egg** sprite on the buttons and in the WIP modal—that asset is from [Annivilus — Pet Egg / Animated](https://annivilus.itch.io/pet-eggs), used **unaltered** (see root README for full credits).
-- **Styling:** CSS Modules (`*.module.css`) plus a small amount of global CSS for fonts and legacy dialog hooks.
+1. **`useTransportData.js`** opens a **native WebSocket** to **`VITE_WS_URL`** or the default **`ws://localhost:8080/ws`**, then subscribes to STOMP topic **`/topic/transport`**.
+2. Each message body is a **JSON array** of **`TransportUpdate`** objects (see **[backend/README.md](../backend/README.md)** for the exact fields). The UI drives sprites, the data-source badge, planner “line activity,” and `aria-live` announcements from that batch.
+3. **Metro** is the only mode with live map data today; **Bus / Train / Air** open the planner in a **hatching** placeholder state.
 
-## What I am still working on
+## Prerequisites
 
-- Making the **pixel / Game Boy aesthetic** line up with the rest of the UI (typography, panels, map chrome).
-- **WCAG AAA–oriented** choices: label contrast on top of map tiles, focus order, reduced motion, and how much “transit app” copy to put into ARIA—this is exploratory, not a certified audit.
-- **Sprite contrast** on busy backgrounds (outlines, backgrounds, maybe re-exporting assets).
-- **Brachiosaurus / line sprites** may get further tweaks or replacements as multimodal features land.
+- **Node.js 20+** (Docker build uses **Node 22**; see `Dockerfile`).
+- **npm** and a running **backend** (root [README](../README.md) — **Getting started**).
 
-## Tech
-
-- React, Vite, Leaflet, `@stomp/stompjs`
-
-## Run locally
-
-**Needs the backend** on the WebSocket URL you configure (default in code targets `ws://localhost:8080/ws` unless `VITE_WS_URL` is set).
+## Commands
 
 ```bash
 npm install
 npm run dev
 ```
 
-Opens on port **5500** (see `vite.config.js`).
+- Dev server: **http://localhost:5500** (`vite.config.js`).
 
-**Production build**
+**Custom broker URL** (Docker, remote backend, or non-default port):
+
+```bash
+VITE_WS_URL=ws://localhost:8181/ws npm run dev
+```
+
+**Production build** (output directory **`build/`**, used by the Docker image):
 
 ```bash
 npm run build
+npm run preview   # optional: serve the production build locally
 ```
 
-Output directory: `build/` (used by the Docker image).
+## Docker
 
-## Docker note
+`VITE_WS_URL` is passed as a **build-time** `ARG` in `Dockerfile`. See the root **`docker-compose.yml`** for a working example next to the Java service.
 
-The `Dockerfile` accepts `VITE_WS_URL` at build time (see repo root `docker-compose.yml` for an example).
+## `src/` layout (high level)
 
-## Main files
+```
+src/
+├── index.jsx                  # Vite/React entry
+├── App.jsx
+├── styles/                    # CSS Modules (+ globals.css)
+└── components/Map/
+    ├── AppShell.jsx           # Layout, planner + map state
+    ├── LiveDinoMap.jsx        # Leaflet map composition
+    ├── PlannerPanel.jsx       # Routing UI + WIP modes
+    ├── MetroStationSelect.jsx # APG-style combobox
+    ├── MetroStationSelect.module.css
+    ├── LiveAnnouncer.jsx      # aria-live + SR map mirror
+    ├── useTransportData.js    # STOMP client + /topic/transport
+    ├── data/metroLines.js
+    ├── utils/                 # metroNetwork (BFS), stationUtils, stationLabelModel
+    └── layers/                # MetroMode, MetroLine, station layers
+```
 
-- `src/components/Map/DinoMap.jsx` — map shell, WebSocket, toggles, planner.
-- `src/components/Map/layers/MetroLayer.jsx` — lines and train markers.
-- `src/components/Map/layers/StationNodesLayer.jsx` — clickable station squares.
-- `src/components/Map/layers/StationLabelsLayer.jsx` — schematic labels and leaders.
-- `src/components/Map/data/*.js` — stop coordinates per line.
-- `src/components/ui/WipModal.jsx` — WIP modes.
-- `public/assets/sprites/` — sprite sheets; **dinos** (teaceratops + my recolours) and **egg** (Annivilus, unchanged). Full credits in root README.
+## Tech
+
+- **React 19**, **Vite 7**, **Leaflet 1.9**, **react-leaflet 5**, **`@stomp/stompjs` 7.x**
+- **CSS Modules** via the **`@styles`** alias → `src/styles/`
+- **Sprites** under `public/assets/sprites/` — full attribution in the root [README](../README.md) **Assets and credits**.
+
+---
+
+**Thank you** for reading the frontend README—if anything here drifts from code, the root **[README](../README.md)** and `src/` are the next places to look.
