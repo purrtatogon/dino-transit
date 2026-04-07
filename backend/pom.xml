@@ -38,6 +38,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mobilitydata</groupId>
+            <artifactId>gtfs-realtime-bindings</artifactId>
+            <version>0.0.8</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
