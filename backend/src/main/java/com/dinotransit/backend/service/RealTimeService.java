@@ -1,25 +1,37 @@
 package com.dinotransit.backend.service;
 
 import com.dinotransit.backend.model.TransportUpdate;
+import com.dinotransit.backend.config.TransitDataProperties;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class RealTimeService {
 
-    private final JurassicRailService jurassicRailService;
+    private final TransportUpdateSource transportUpdateSource;
     private final SimpMessagingTemplate webSocketTemplate;
+    private final TransitDataProperties properties;
 
-    public RealTimeService(JurassicRailService jurassicRailService, SimpMessagingTemplate webSocketTemplate) {
-        this.jurassicRailService = jurassicRailService;
+    public RealTimeService(
+            TransportUpdateSource transportUpdateSource,
+            SimpMessagingTemplate webSocketTemplate,
+            TransitDataProperties properties
+    ) {
+        this.transportUpdateSource = transportUpdateSource;
         this.webSocketTemplate = webSocketTemplate;
+        this.properties = properties;
     }
 
-    @Scheduled(fixedRate = 500)
+    @Scheduled(fixedRateString = "#{@transitDataProperties.broadcastFixedRateMs}")
     public void broadcastUpdates() {
-        List<TransportUpdate> updates = jurassicRailService.getSimulatedFleet();
+        List<TransportUpdate> updates = transportUpdateSource.getCurrentUpdates();
+
+        if (updates.isEmpty() && !properties.getFallback().isPublishLastKnownGood()) {
+            return;
+        }
 
         webSocketTemplate.convertAndSend("/topic/transport", updates);
     }

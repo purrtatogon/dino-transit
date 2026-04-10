@@ -5,35 +5,94 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+// The simulator is our "safety net" data source.  It produces smooth, tiny
+// position changes every tick, so sprites always look good on the map.
+// When the real Metro Lisboa API is down (or returns empty data), the fallback
+// chain in ConfiguredTransportUpdateSource routes here so the map is never empty.
+//
+// The simulator advances trains at a roughly constant speed along each
+// inter-station straight segment (same station order as metroLines.js).
+// Shorter segments take less wall time than long ones, like a real metro.
+// Live API data, by contrast, arrives irregularly and with bigger jumps —
+// that's why the frontend keeps teleport-threshold and dead-reckoning logic.
 @Service
 public class JurassicRailService {
 
+    /**
+     * Euclidean distance in lat/lng per broadcast tick — not true metres, but
+     * dividing by segment length yields a nearly constant apparent speed on the map.
+     * Tuned for ~500ms ticks so a medium segment takes on the order of tens of seconds.
+     */
+    private static final double DISTANCE_PER_TICK = 4.8e-5;
+
+    // These coordinates MUST match metroLines.js on the frontend exactly,
+    // otherwise sprites stop slightly off from the station node markers.
     private static final double[][] GREEN_LINE_STATIONS = {
-            {38.7602, -9.1661}, {38.7500, -9.1500}, {38.7460, -9.1470}, {38.7420, -9.1440},
-            {38.7480, -9.1410}, {38.7420, -9.1330}, {38.7360, -9.1320}, {38.7330, -9.1340},
-            {38.7270, -9.1340}, {38.7230, -9.1350}, {38.7200, -9.1340}, {38.7150, -9.1400},
-            {38.7100, -9.1390}, {38.7060, -9.1440}
+            {38.7604, -9.16606},  // Telheiras
+            {38.7599, -9.15794},  // Campo Grande
+            {38.7535, -9.14388},  // Alvalade
+            {38.7485, -9.14135},  // Roma
+            {38.7426, -9.13381},  // Areeiro
+            {38.7373, -9.13409},  // Alameda
+            {38.7335, -9.13445},  // Arroios
+            {38.7266, -9.13503},  // Anjos
+            {38.7222, -9.13531},  // Intendente
+            {38.7168, -9.13575},  // Martim Moniz
+            {38.7138, -9.13896},  // Rossio
+            {38.7107, -9.13909},  // Baixa-Chiado
+            {38.7062, -9.14503}   // Cais do Sodré
     };
 
     private static final double[][] RED_LINE_STATIONS = {
-            {38.7340, -9.1530}, {38.7340, -9.1450}, {38.7360, -9.1320}, {38.7380, -9.1250},
-            {38.7400, -9.1180}, {38.7450, -9.1100}, {38.7520, -9.1070}, {38.7580, -9.1020},
-            {38.7672, -9.0992}, {38.7680, -9.1050}, {38.7685, -9.1150}, {38.7690, -9.1290}
+            {38.7348, -9.15423},  // São Sebastião
+            {38.7353, -9.14558},  // Saldanha
+            {38.7373, -9.13409},  // Alameda
+            {38.7392, -9.12366},  // Olaias
+            {38.7477, -9.11855},  // Bela Vista
+            {38.7553, -9.11414},  // Chelas
+            {38.7613, -9.11204},  // Olivais
+            {38.7632, -9.10409},  // Cabo Ruivo
+            {38.7678, -9.09977},  // Oriente
+            {38.7748, -9.10266},  // Moscavide
+            {38.7750, -9.11498},  // Encarnação
+            {38.7686, -9.12833}   // Aeroporto
     };
 
     private static final double[][] BLUE_LINE_STATIONS = {
-            {38.7522, -9.2241}, {38.7587, -9.2179}, {38.7603, -9.2045}, {38.7622, -9.1969},
-            {38.7592, -9.1927}, {38.7531, -9.1894}, {38.7475, -9.1805}, {38.7423, -9.1725},
-            {38.7412, -9.1685}, {38.7376, -9.1595}, {38.7340, -9.1530}, {38.7291, -9.1504},
-            {38.7259, -9.1500}, {38.7203, -9.1453}, {38.7156, -9.1416}, {38.7100, -9.1390},
-            {38.7072, -9.1328}, {38.7137, -9.1221}
+            {38.7522, -9.22414},  // Reboleira
+            {38.7584, -9.21917},  // Amadora Este
+            {38.7606, -9.20471},  // Alfornelos
+            {38.7624, -9.19693},  // Pontinha
+            {38.7593, -9.19281},  // Carnide
+            {38.7533, -9.18866},  // Colégio Militar/Luz
+            {38.7496, -9.17995},  // Alto dos Moinhos
+            {38.7485, -9.17243},  // Laranjeiras
+            {38.7422, -9.16872},  // Jardim Zoológico
+            {38.7377, -9.15845},  // Praça de Espanha
+            {38.7348, -9.15423},  // São Sebastião
+            {38.7297, -9.15028},  // Parque
+            {38.7249, -9.15081},  // Marquês de Pombal
+            {38.7201, -9.14582},  // Avenida
+            {38.7151, -9.14162},  // Restauradores
+            {38.7107, -9.13909},  // Baixa-Chiado
+            {38.7072, -9.13335},  // Terreiro do Paço
+            {38.7138, -9.12256}   // Santa Apolónia
     };
 
     private static final double[][] YELLOW_LINE_STATIONS = {
-            {38.7934, -9.1734}, {38.7857, -9.1718}, {38.7795, -9.1596}, {38.7733, -9.1593},
-            {38.7675, -9.1558}, {38.7500, -9.1500}, {38.7460, -9.1470}, {38.7420, -9.1440},
-            {38.7405, -9.1460}, {38.7340, -9.1450}, {38.7305, -9.1470}, {38.7259, -9.1500},
-            {38.7201, -9.1549}
+            {38.7932, -9.17322},  // Odivelas
+            {38.7858, -9.17215},  // Senhor Roubado
+            {38.7799, -9.15999},  // Ameixoeira
+            {38.7728, -9.15970},  // Lumiar
+            {38.7671, -9.15546},  // Quinta das Conchas
+            {38.7599, -9.15794},  // Campo Grande
+            {38.7519, -9.15863},  // Cidade Universitária
+            {38.7479, -9.14856},  // Entre Campos
+            {38.7414, -9.14703},  // Campo Pequeno
+            {38.7353, -9.14558},  // Saldanha
+            {38.7306, -9.14650},  // Picoas
+            {38.7249, -9.15081},  // Marquês de Pombal
+            {38.7201, -9.15411}   // Rato
     };
 
     private static class DinoTrain {
@@ -106,7 +165,9 @@ public class JurassicRailService {
                     pos[0],
                     pos[1],
                     direction,
-                    train.lineColor
+                    train.lineColor,
+                    System.currentTimeMillis(),
+                    "simulated"
             ));
         }
         return updates;
@@ -146,23 +207,60 @@ public class JurassicRailService {
             return;
         }
 
-        train.progress += 0.05;
+        int nextIndex = train.movingForward ? train.currentStationIndex + 1 : train.currentStationIndex - 1;
+        if (nextIndex >= train.stations.length) {
+            nextIndex = train.stations.length - 1;
+        }
+        if (nextIndex < 0) {
+            nextIndex = 0;
+        }
 
-        if (train.progress >= 1.0) {
-            train.progress = 0.0;
-            train.isStopped = true;
-            train.stopTimer = 10;
+        double[] start = train.stations[train.currentStationIndex];
+        double[] end = train.stations[nextIndex];
+        double segmentLength = segmentLength(start, end);
+        if (segmentLength < 1e-10) {
+            arriveAtNextStation(train);
+            return;
+        }
 
-            if (train.movingForward) {
-                train.currentStationIndex++;
-                if (train.currentStationIndex >= train.stations.length - 1) {
-                    train.movingForward = false;
-                }
-            } else {
-                train.currentStationIndex--;
-                if (train.currentStationIndex <= 0) {
-                    train.movingForward = true;
-                }
+        // Constant track speed: same geographic step each tick, longer segments need more ticks.
+        train.progress += DISTANCE_PER_TICK / segmentLength;
+
+        while (train.progress >= 1.0) {
+            train.progress -= 1.0;
+            arriveAtNextStation(train);
+            if (train.isStopped) {
+                train.progress = 0.0;
+                break;
+            }
+        }
+    }
+
+    private static double segmentLength(double[] a, double[] b) {
+        double dLat = b[0] - a[0];
+        double dLng = b[1] - a[1];
+        return Math.hypot(dLat, dLng);
+    }
+
+    /**
+     * Finish the current leg: dwell at the station we just reached, then advance
+     * the station index (or reverse at a terminus).
+     */
+    private void arriveAtNextStation(DinoTrain train) {
+        train.isStopped = true;
+        train.stopTimer = 10;
+
+        if (train.movingForward) {
+            train.currentStationIndex++;
+            if (train.currentStationIndex >= train.stations.length - 1) {
+                train.currentStationIndex = train.stations.length - 1;
+                train.movingForward = false;
+            }
+        } else {
+            train.currentStationIndex--;
+            if (train.currentStationIndex <= 0) {
+                train.currentStationIndex = 0;
+                train.movingForward = true;
             }
         }
     }
@@ -173,6 +271,12 @@ public class JurassicRailService {
         }
 
         int nextIndex = train.movingForward ? train.currentStationIndex + 1 : train.currentStationIndex - 1;
+        if (nextIndex >= train.stations.length) {
+            nextIndex = train.stations.length - 1;
+        }
+        if (nextIndex < 0) {
+            nextIndex = 0;
+        }
         double[] start = train.stations[train.currentStationIndex];
         double[] end = train.stations[nextIndex];
 
