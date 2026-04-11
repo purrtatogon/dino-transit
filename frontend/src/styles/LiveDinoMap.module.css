@@ -1,0 +1,364 @@
+/* Leaflet global overrides needed for the live map tiles and markers */
+
+:global(.pixel-map-tiles) {
+  filter: sepia(0.4) contrast(1.1);
+  image-rendering: pixelated;
+}
+
+:global(.leaflet-container) {
+  background-color: #eaddcf;
+}
+
+:global(.pixel-dino) {
+  image-rendering: pixelated;
+  display: block;
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  transform: scale(var(--dino-scale, 1));
+  transform-origin: 50% 100%;
+}
+
+:global(.dino-wrapper) {
+  background: transparent !important;
+  border: none !important;
+}
+
+:global(.leaflet-marker-icon.dino-wrapper) {
+  background: transparent !important;
+}
+
+:global(.station-label-wrapper.leaflet-marker-icon) {
+  overflow: visible !important;
+}
+
+:global(.station-label-wrapper) {
+  display: block;
+  pointer-events: none;
+  background: transparent;
+  border: none;
+}
+
+:global(.station-label-orbit) {
+  position: relative;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+:global(.station-label-orbit--leaderOnly) {
+  background: transparent;
+}
+
+:global(.diagram-station-label__leader) {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+:global(.diagram-station-label__leader-casing) {
+  stroke: #ffffff;
+  stroke-width: 5;
+  stroke-linecap: round;
+  fill: none;
+}
+
+:global(.diagram-station-label__leader-ink) {
+  stroke: #111111;
+  stroke-width: 2;
+  stroke-linecap: round;
+  fill: none;
+}
+
+:global(.station-node-wrapper.leaflet-marker-icon) {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  background: transparent !important;
+  border: none !important;
+}
+
+:global(.station-node) {
+  display: block;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border-radius: 0;
+  box-shadow: 0 0 0 2px #111111;
+}
+
+:global(.station-node.station-node--terminal) {
+  border-radius: 3px;
+  box-shadow: 0 0 0 3px #111111;
+}
+
+:global(.station-node.station-node--terminal.station-node--line-green) {
+  background-color: #00aaa6;
+}
+
+:global(.station-node.station-node--terminal.station-node--line-red) {
+  background-color: #ee2b74;
+}
+
+:global(.station-node.station-node--terminal.station-node--line-blue) {
+  background-color: #4e84c4;
+}
+
+:global(.station-node.station-node--terminal.station-node--line-yellow) {
+  background-color: #fdb913;
+}
+
+:global(.station-node.station-node--interchange) {
+  border-radius: 3px;
+  box-shadow: 0 0 0 3px #111111;
+}
+
+:global(.station-node.station-node--inline) {
+  box-shadow: 0 0 0 1px #111111;
+}
+
+:global(.diagram-station-label) {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: stretch;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 2px solid #000000;
+  border-radius: 2px;
+  overflow: hidden;
+  text-align: left;
+  pointer-events: none;
+}
+
+:global(.diagram-station-label__rail) {
+  flex: 0 0 4px;
+  width: 4px;
+  min-height: 100%;
+  align-self: stretch;
+}
+
+:global(.diagram-station-label--green .diagram-station-label__rail) {
+  background-color: #007a78;
+}
+
+:global(.diagram-station-label--red .diagram-station-label__rail) {
+  background-color: #c41e5c;
+}
+
+:global(.diagram-station-label--blue .diagram-station-label__rail) {
+  background-color: #3a6cab;
+}
+
+:global(.diagram-station-label--yellow .diagram-station-label__rail) {
+  background-color: #c49a0a;
+}
+
+:global(.diagram-station-label .diagram-rail--green) {
+  background-color: #007a78;
+}
+
+:global(.diagram-station-label .diagram-rail--red) {
+  background-color: #c41e5c;
+}
+
+:global(.diagram-station-label .diagram-rail--blue) {
+  background-color: #3a6cab;
+}
+
+:global(.diagram-station-label .diagram-rail--yellow) {
+  background-color: #c49a0a;
+}
+
+:global(.diagram-station-label__text) {
+  flex: 1 1 auto;
+  min-width: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 2px 6px 2px 6px;
+  font-family: 'Atkinson Hyperlegible', Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  color: #050b14;
+  background-color: #ffffff;
+  white-space: nowrap;
+}
+
+:global(.diagram-station-label.diagram-interchange .diagram-station-label__text) {
+  font-weight: 800;
+  padding-left: 7px;
+}
+
+:global(.diagram-station-label.diagram-terminal .diagram-station-label__text) {
+  font-weight: 800;
+}
+
+/* Map layout */
+
+.mapColumn {
+  position: relative;
+  order: 1;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+
+.mapSlot {
+  width: 100%;
+}
+
+.mapSlotCollapsed {
+  height: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.mapViewport {
+  width: 100%;
+  height: 100%;
+}
+
+.mapContainer {
+  width: 100%;
+  height: 100%;
+}
+
+.topControls {
+  position: absolute;
+  top: 3.1rem;
+  left: 0.75rem;
+  z-index: 1300;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.panelToggle {
+  min-width: 11rem;
+  min-height: 2.8rem;
+  border: 2px solid #111111;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: #111111;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+@media (min-width: 900px) {
+  .mapSlot:not(.mapSlotCollapsed) {
+    height: 100%;
+  }
+
+  .mapColumn {
+    order: 3;
+    flex: 1;
+    height: 100%;
+  }
+
+  .mapSlot {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .mapViewport {
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+  }
+
+  .panelToggle {
+    display: none;
+  }
+}
+
+@media (max-width: 899px) {
+  .mapViewport {
+    height: clamp(220px, calc(40dvh / var(--page-zoom, 1)), 360px);
+  }
+
+  .panelToggle {
+    display: block;
+  }
+}
+
+@media (max-width: 560px) {
+  .panelToggle {
+    min-width: 10rem;
+    min-height: 44px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(.pixel-map-tiles) {
+    transition: none;
+  }
+
+  .mapSlot,
+  .mapViewport,
+  .mapContainer {
+    transition: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :global(.diagram-station-label) {
+    border-width: 3px;
+  }
+
+  :global(.diagram-station-label__leader-ink) {
+    stroke-width: 3;
+  }
+
+  :global(.diagram-station-label__leader-casing) {
+    stroke-width: 7;
+  }
+
+  :global(.station-node) {
+    box-shadow: 0 0 0 3px #000000;
+  }
+
+  :global(.station-node.station-node--terminal),
+  :global(.station-node.station-node--interchange) {
+    box-shadow: 0 0 0 4px #000000;
+  }
+
+  .panelToggle {
+    border-width: 3px;
+  }
+}
+
+@media (forced-colors: active) {
+  :global(.station-node) {
+    forced-color-adjust: none;
+    box-shadow: 0 0 0 2px CanvasText;
+    background-color: Canvas;
+  }
+
+  :global(.diagram-station-label) {
+    border-color: CanvasText;
+  }
+
+  :global(.diagram-station-label__text) {
+    color: CanvasText;
+    background-color: Canvas;
+  }
+
+  :global(.diagram-station-label__leader-ink) {
+    stroke: CanvasText;
+  }
+
+  :global(.diagram-station-label__leader-casing) {
+    stroke: Canvas;
+  }
+
+}

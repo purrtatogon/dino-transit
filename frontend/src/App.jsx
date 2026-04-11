@@ -1,10 +1,10 @@
 import React from 'react';
-import DinoMap from './components/Map/DinoMap';
+import AppShell from './components/Map/AppShell';
 
 function App() {
   return (
     <div className="App">
-      <DinoMap />
+      <AppShell />
     </div>
   );
 }

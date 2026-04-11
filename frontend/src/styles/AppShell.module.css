@@ -1,0 +1,225 @@
+/* Offset layout below fixed prototype banner (single-line strip + planner-matched chrome). */
+.appShell {
+  --prototype-banner-offset: 2.95rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100dvh / var(--page-zoom, 1));
+  padding-top: var(--prototype-banner-offset);
+  color: #111111;
+  background: #f5f7fa;
+}
+
+@media (min-width: 720px) {
+  .appShell {
+    --prototype-banner-offset: 2.95rem;
+  }
+}
+
+/* Matches planner header band (#PlannerPanel .plannerHeaderBand) for one visual system. */
+.prototypeBanner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1250;
+  margin: 0;
+  padding: 0.4rem 0.75rem;
+  font-family: 'Atkinson Hyperlegible', Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  background-color: #0b3d36;
+  border-bottom: 3px solid #04221e;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  overflow-x: auto;
+  overflow-y: hidden;
+  text-align: center;
+  scrollbar-color: #dff8f3 #04221e;
+}
+
+.prototypeBannerText {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0.1rem 0;
+  white-space: nowrap;
+  min-height: 1.75rem;
+}
+
+.prototypeBannerIcon {
+  flex-shrink: 0;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.prototypeBannerMessage {
+  color: #dff8f3;
+}
+
+@media (prefers-contrast: more) {
+  .prototypeBanner {
+    border-bottom-width: 4px;
+  }
+
+  .prototypeBannerMessage {
+    color: #ffffff;
+  }
+}
+
+@media (forced-colors: active) {
+  .prototypeBanner {
+    border-bottom-color: CanvasText;
+    color: CanvasText;
+    background-color: Canvas;
+    forced-color-adjust: none;
+  }
+
+  .prototypeBannerMessage {
+    color: CanvasText;
+  }
+}
+
+.layoutRoot {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 899px) {
+  .appShell {
+    height: auto;
+    min-height: calc(100dvh / var(--page-zoom, 1));
+    padding-bottom: 5.8rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .layoutRoot {
+    flex-direction: row;
+    align-items: stretch;
+  }
+}
+
+/* Data source badge — a passive, Game Boy-inspired status pill.
+   Focusable for screen readers (tabIndex 0 + role=status) but styled
+   so sighted users never mistake it for a button: no hover change,
+   cursor stays default, muted border, subtle palette.
+   The small coloured dot before the text reinforces the status at a glance:
+     green = live,  blue = simulated,  amber = cached,  purple = schedule */
+.sourceBadge {
+  position: absolute;
+  top: calc(var(--prototype-banner-offset, 0px) + 0.5rem);
+  right: 0.5rem;
+  z-index: 1100;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.35;
+  color: #2b3a2e;
+  background-color: #e8efe4;
+  border: 2px solid #8b9c87;
+  border-radius: 6px;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.45),
+              inset -1px -1px 0 rgba(0, 0, 0, 0.06);
+  cursor: default;
+  user-select: none;
+  opacity: 0.92;
+}
+
+.sourceBadge:focus-visible {
+  outline: 3px solid #0b1522;
+  outline-offset: 2px;
+}
+
+.sourceDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background-color: #4a7c59;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.source_live {
+  background-color: #e1f0e1;
+  border-color: #7a9e7a;
+  color: #1e3a1e;
+}
+
+.source_live .sourceDot {
+  background-color: #3a8a3a;
+}
+
+.source_simulated {
+  background-color: #dfe9f3;
+  border-color: #7a8fa5;
+  color: #1a2e42;
+}
+
+.source_simulated .sourceDot {
+  background-color: #4a7aaa;
+}
+
+.source_cached {
+  background-color: #f5eed8;
+  border-color: #a59872;
+  color: #3a3018;
+}
+
+.source_cached .sourceDot {
+  background-color: #b89a3a;
+}
+
+.source_schedule {
+  background-color: #e8e0f0;
+  border-color: #8a7aa0;
+  color: #2a1e3a;
+}
+
+.source_schedule .sourceDot {
+  background-color: #7a5aaa;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .appShell,
+  .layoutRoot,
+  .prototypeBanner {
+    transition: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .sourceBadge {
+    border-width: 3px;
+    opacity: 1;
+  }
+
+  .sourceDot {
+    border-width: 2px;
+  }
+}
+
+@media (forced-colors: active) {
+  .sourceBadge {
+    border-color: CanvasText;
+    color: CanvasText;
+    background-color: Canvas;
+    forced-color-adjust: none;
+  }
+
+  .sourceDot {
+    background-color: CanvasText;
+    border-color: CanvasText;
+  }
+}
