@@ -1,14 +1,8 @@
-import { GREEN_LINE_STATIONS } from '../data/greenLine';
-import { RED_LINE_STATIONS } from '../data/redLine';
-import { BLUE_LINE_STATIONS } from '../data/blueLine';
-import { YELLOW_LINE_STATIONS } from '../data/yellowLine';
+import { METRO_LINES } from '../data/metroLines';
 
-export const METRO_LINES = {
-    green: GREEN_LINE_STATIONS,
-    red: RED_LINE_STATIONS,
-    blue: BLUE_LINE_STATIONS,
-    yellow: YELLOW_LINE_STATIONS
-};
+const LINE_STATION_MAP = Object.fromEntries(
+    METRO_LINES.map((line) => [line.key, line.stations])
+);
 
 const normalizeName = (name) => name.trim().toLowerCase();
 
@@ -25,7 +19,7 @@ const buildGraph = () => {
         return normalized;
     };
 
-    Object.entries(METRO_LINES).forEach(([line, stations]) => {
+    Object.entries(LINE_STATION_MAP).forEach(([line, stations]) => {
         stations.forEach((station, index) => {
             const current = addNode(station.name);
             if (index === 0) {
@@ -47,6 +41,13 @@ export const ALL_STATIONS = Array.from(STATION_DISPLAY_NAMES.values()).sort((a, 
     a.localeCompare(b)
 );
 
+const LINE_DISPLAY_NAME = {
+    green: 'Green',
+    red: 'Red',
+    blue: 'Blue',
+    yellow: 'Yellow'
+};
+
 export const findMetroRoute = (fromStation, toStation) => {
     if (!fromStation || !toStation) {
         return null;
@@ -62,9 +63,7 @@ export const findMetroRoute = (fromStation, toStation) => {
     if (from === to) {
         const stationName = STATION_DISPLAY_NAMES.get(from);
         return {
-            stations: [stationName],
-            steps: [`You are already at ${stationName}.`],
-            transferStations: []
+            steps: [{ lineKey: null, text: `You are already at ${stationName}.` }]
         };
     }
 
@@ -112,7 +111,6 @@ export const findMetroRoute = (fromStation, toStation) => {
     linePath.reverse();
 
     const steps = [];
-    const transferStations = [];
     let segmentStart = 0;
 
     for (let i = 1; i <= linePath.length; i += 1) {
@@ -127,23 +125,16 @@ export const findMetroRoute = (fromStation, toStation) => {
         const startStation = STATION_DISPLAY_NAMES.get(stationPath[fromIdx]);
         const endStation = STATION_DISPLAY_NAMES.get(stationPath[toIdx]);
         const stopCount = toIdx - fromIdx;
-        steps.push(
-            `Take ${line} line from ${startStation} to ${endStation} (${stopCount} ${
+        const lineName = LINE_DISPLAY_NAME[line] || line;
+        steps.push({
+            lineKey: line,
+            text: `Take the ${lineName} line from ${startStation} to ${endStation} (${stopCount} ${
                 stopCount === 1 ? 'stop' : 'stops'
             }).`
-        );
-
-        if (i < linePath.length) {
-            const transferAt = STATION_DISPLAY_NAMES.get(stationPath[toIdx]);
-            transferStations.push(transferAt);
-        }
+        });
 
         segmentStart = i;
     }
 
-    return {
-        stations: stationPath.map((station) => STATION_DISPLAY_NAMES.get(station)),
-        steps,
-        transferStations
-    };
+    return { steps };
 };
