@@ -6,7 +6,7 @@ import {
     createStationNodeIcon,
     dedupeStations,
     toStationKey
-} from './stationLayerShared';
+} from '../utils/stationUtils';
 
 // Under the train sprites (600) so dinos paint on top
 const STATION_NODES_PANE_Z = 555;
