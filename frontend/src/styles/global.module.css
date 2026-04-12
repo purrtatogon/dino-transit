@@ -10,40 +10,19 @@
   border: 0;
 }
 
-.sectionTitle {
-  margin: 0 0 0.35rem;
-  font-size: 1.25rem;
-}
-
-.subTitle {
-  margin: 1rem 0 0.35rem;
-  font-size: 1rem;
-}
-
-.helperText {
-  margin: 0.25rem 0 1rem;
-  font-size: 0.95rem;
-}
-
-.fieldLabel {
-  display: block;
-  margin-bottom: 0.35rem;
-  font-weight: 700;
-}
-
-.selectField {
-  width: 100%;
-  min-height: 2.8rem;
-  margin-bottom: 0.85rem;
-  padding: 0.5rem;
-  border: 2px solid #111111;
-  border-radius: 0.5rem;
-  background: #ffffff;
-  color: #111111;
-  font-size: 1rem;
-}
-
 .focusVisible:focus-visible {
   outline: 3px solid #fcc200;
   outline-offset: 2px;
+}
+
+@media (prefers-contrast: more) {
+  .focusVisible:focus-visible {
+    outline-width: 4px;
+  }
+}
+
+@media (forced-colors: active) {
+  .focusVisible:focus-visible {
+    outline: 3px solid Highlight;
+  }
 }
