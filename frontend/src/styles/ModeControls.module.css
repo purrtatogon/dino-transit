@@ -1,0 +1,244 @@
+.modeRail {
+  flex-shrink: 0;
+}
+
+.layerControls {
+  order: 3;
+  position: fixed;
+  left: 50%;
+  bottom: max(0.75rem, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 1300;
+  width: min(96vw, 42rem);
+}
+
+.layerControlList {
+  margin: 0;
+  padding: 0.4rem;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.96);
+  border: 2px solid #111111;
+  border-radius: 0.7rem;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+}
+
+.metroRailSlotActive {
+  margin: 0;
+  padding: 0;
+}
+
+.metroToggle,
+.modeButton {
+  width: 100%;
+  min-width: 44px;
+  min-height: 44px;
+  border: 2px solid #111111;
+  border-radius: 0.6rem;
+  background: #ffffff;
+  color: #111111;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.metroToggle {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  justify-items: center;
+  align-items: center;
+  row-gap: 0.55rem;
+  padding: 0.25rem 0.45rem 0.6rem;
+}
+
+.metroToggleFused {
+  border-color: #0f1a28;
+  box-shadow: inset 0 0 0 2px #0f1a28;
+  background: #f0f6ff;
+}
+
+.metroToggleImage {
+  width: 3.8rem;
+  height: 3.8rem;
+  image-rendering: pixelated;
+  transform: scaleX(-1);
+}
+
+.modeState {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: center;
+  color: #1f2f42;
+}
+
+.modeButton {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  justify-items: center;
+  align-items: center;
+  font-size: 0.9rem;
+  padding: 0.85rem 0.45rem 0.6rem;
+  gap: 0.55rem;
+}
+
+.modeLabel {
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.modeEggIcon {
+  width: 28px;
+  height: 28px;
+  image-rendering: pixelated;
+}
+
+.modeButtonActive {
+  border-color: #0f1a28;
+  box-shadow: inset 0 0 0 2px #0f1a28;
+  background: #f0f6ff;
+}
+
+.mapRailListItem {
+  margin: 0;
+  padding: 0;
+}
+
+.dinoMapModeButton {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  justify-items: center;
+  align-items: center;
+  row-gap: 0.55rem;
+  padding: 0.85rem 0.35rem 0.6rem;
+}
+
+.dinoMapToggleIcon {
+  width: 28px;
+  height: 28px;
+  image-rendering: pixelated;
+  transform: scaleX(-1);
+}
+
+.dinoMapModeLabel {
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.dinoMapModeButton .modeState {
+  max-width: 100%;
+  line-height: 1.35;
+  padding: 0 0.1rem;
+}
+
+.dinoMapModeButtonDisabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.dinoMapModeButtonDisabled:focus-visible {
+  outline: 3px solid #fcc200;
+  outline-offset: 2px;
+}
+
+@media (max-width: 899px) {
+  .mapRailListItem {
+    grid-column: 1 / -1;
+  }
+
+  .layerControls {
+    width: calc(100vw - 0.8rem);
+    bottom: max(0.55rem, env(safe-area-inset-bottom));
+  }
+
+  .layerControlList {
+    padding: 0.35rem;
+    gap: 0.35rem;
+  }
+
+  .modeState {
+    font-size: 0.66rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .modeRail.layerControls {
+    order: 1;
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    width: 7rem;
+    min-width: 7rem;
+    max-width: 7rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 0.5rem 0.35rem;
+    margin: 0;
+    background: #ffffff;
+    border-right: 3px solid #111111;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .layerControlList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    width: 100%;
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  .layerControlList li {
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .layerControlList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .metroToggle,
+  .modeButton,
+  .dinoMapModeButton {
+    transition: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .metroToggle,
+  .modeButton {
+    border-width: 3px;
+  }
+
+  .layerControlList {
+    border-width: 3px;
+  }
+
+  .metroRailSlotActive {
+    border-width: 3px;
+  }
+}
+
+@media (forced-colors: active) {
+  .metroToggle,
+  .modeButton {
+    border-color: CanvasText;
+  }
+
+  .layerControlList {
+    border-color: CanvasText;
+  }
+}
