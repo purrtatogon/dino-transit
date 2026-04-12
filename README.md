@@ -83,7 +83,7 @@ No station labels (map lines and trains only).
 
 ![Same map view with all station labels and leaders hidden via DINO MAP controls.](docs/screenshots_v1/dino-transit-v1_dinomap_no-stations-visible.png)
 
-Station names on the map are **diagram-style labels** (leaders and line-color rails) anchored to real coordinates in **Leaflet**, not a free-form schematic canvas—so names cannot always sit “exactly” where they would on a printed diagram without **overlapping** nearby stops. The **DINO MAP** controls on the bottom rail let you **hide or restore every label**, and separately **hide or show intermediate stops** (while keeping terminals and interchanges easier to read). Your choices are **remembered in the browser**. For the full design trade-offs, see [`docs/station-labels-journey.md`](docs/station-labels-journey.md).
+Station names on the map are **diagram-style labels** (leaders and line-color rails) anchored to real coordinates in **Leaflet**, not a free-form schematic canvas—so names cannot always sit “exactly” where they would on a printed diagram without **overlapping** nearby stops. The **DINO MAP** controls on the bottom rail let you **hide or restore every label**, and separately **hide or show intermediate stops** (while keeping terminals and interchanges easier to read). Your choices are **remembered in the browser**.
 
 ### Bus mode (WIP)
 
@@ -193,7 +193,7 @@ Station naming on the **map** and in the **Metro origin/destination** controls i
 - **Trip planner dropdowns** reuse the **same label text and rail pairing** as the map so the two views stay consistent. Per **[WCAG 1.4.1 Use of color](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color.html)**, color is **not** the only cue: glyphs and the full station name are always present. The colored rails in the list are marked `aria-hidden="true"` so screen readers hear the **text + symbols**, not a redundant “color stripe” description.
 - The picker follows the **[WAI-ARIA APG combobox / listbox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/)** pattern (`combobox`, `listbox`, `option`, `aria-expanded`, `aria-controls`, `aria-selected`, visible `aria-labelledby`). Keyboard support includes **Arrow keys**, **Enter**, and **Escape**; opening the list moves focus with `useLayoutEffect` (Deque-style focus timing).
 
-Map labels themselves are treated as **visual diagram chrome** (`aria-hidden` on the Leaflet label HTML); a **screen-reader mirror** of stations and trains lives in [`LiveAnnouncer.jsx`](frontend/src/components/Map/LiveAnnouncer.jsx) so map content still has a structured SR path (see below). For how **DINO MAP** label visibility works in the UI, see **Screenshots** → *Station labels on the map* above and [`docs/station-labels-journey.md`](docs/station-labels-journey.md).
+Map labels themselves are treated as **visual diagram chrome** (`aria-hidden` on the Leaflet label HTML); a **screen-reader mirror** of stations and trains lives in [`LiveAnnouncer.jsx`](frontend/src/components/Map/LiveAnnouncer.jsx) so map content still has a structured SR path (see below).
 
 ### What v1 already implements
 
@@ -245,7 +245,7 @@ These hex values drive **Leaflet polylines** and **planner UI** line accents (sa
 ### Brachiosaurus (Metro)
 
 - **Created by** [teaceratops](https://teaceratops.itch.io/); sprites are from their [Dinosaur Sprites for GB Studio](https://teaceratops.itch.io/dinosgbs) pack.
-- I used [Affinity](https://www.affinity.studio/) (Photo/Designer) to process the default brachiosaurus sprite sheet (green) and produce recolored versions (blue, red, yellow), and [Ezgif](https://ezgif.com/maker) to build the animated brachiosaurus GIFs.
+- I used [Affinity](https://www.affinity.studio/) to process the default brachiosaurus sprite sheet (green) and produce recolored versions (blue, red, yellow), and [Ezgif](https://ezgif.com/maker) to build the animated brachiosaurus GIFs.
 - The tones on the **green** brachiosaurus are the originals from the [Dinosaur Sprites for GB Studio](https://teaceratops.itch.io/dinosgbs) pack by [teaceratops](https://teaceratops.itch.io/).
 - The tones on the **blue, red, and yellow** brachiosaurus (including directional walk/idle variants) are **my recolors** on top of the originals.
 - **`brachio_west_02_idle_rainbow.png`:** My edit of the west-facing idle brachiosaurus so one sprite carries **all four Lisbon metro line colors** at once (a “whole network” metro icon). It appears as decorative art on the **Metro** mode button and both **DINO MAP** station-label toggles in [`ModeControls.jsx`](frontend/src/components/Map/ModeControls.jsx) (`public/assets/sprites/brachio_west_02_idle_rainbow.png`). Those `<img>` elements are `aria-hidden`; meaning comes from visible labels and `aria-label`s on the controls.
@@ -281,5 +281,5 @@ Everything above this section in **this file** is the shared story: **v1 vs v2**
 
 ---
 
-## Thanks for checking out DINO-TRANSIT v1.0!
+## Thanks for checking out DINO-TRANSIT v1.0! ◕⩊◕
 

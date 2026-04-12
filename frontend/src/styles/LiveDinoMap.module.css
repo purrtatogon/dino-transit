@@ -9,6 +9,12 @@
   background-color: #eaddcf;
 }
 
+/* Zoom +/- stays on the left; offset from device safe areas when present */
+:global(.leaflet-bottom.leaflet-left) {
+  margin-bottom: env(safe-area-inset-bottom, 0);
+  margin-left: env(safe-area-inset-left, 0);
+}
+
 :global(.pixel-dino) {
   image-rendering: pixelated;
   display: block;

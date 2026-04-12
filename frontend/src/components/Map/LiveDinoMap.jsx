@@ -1,6 +1,6 @@
 import React, { useCallback, useLayoutEffect, useRef } from 'react';
 import L from 'leaflet';
-import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, useMap, useMapEvents, ZoomControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import MetroMode from './layers/MetroMode';
 import StationNodesLayer from './layers/StationNodesLayer';
@@ -107,9 +107,11 @@ const LiveDinoMap = ({
                     zoom={12}
                     zoomSnap={0.25}
                     zoomDelta={0.5}
+                    zoomControl={false}
                     className={s.mapContainer}
                     aria-label="Lisbon metro map with live dinosaur metro icons"
                 >
+                    <ZoomControl position="bottomleft" />
                     <FitToNetwork />
                     <ZoomCssSync />
                     <MapInvalidateWhenShown isShown />
