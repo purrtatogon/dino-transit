@@ -7,6 +7,7 @@
   width: 100%;
   height: calc(100dvh / var(--page-zoom, 1));
   padding-top: var(--prototype-banner-offset);
+  scroll-padding-top: var(--prototype-banner-offset);
   color: #111111;
   background: #f5f7fa;
 }

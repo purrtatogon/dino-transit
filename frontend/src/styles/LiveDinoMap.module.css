@@ -9,10 +9,17 @@
   background-color: #eaddcf;
 }
 
-/* Zoom +/- stays on the left; offset from device safe areas when present */
-:global(.leaflet-bottom.leaflet-left) {
-  margin-bottom: env(safe-area-inset-bottom, 0);
+/* Top-left zoom: gutter below fixed prototype banner band; safe-area on notched devices */
+:global(#dino-live-map-region .leaflet-top.leaflet-left) {
+  margin-top: 0.35rem;
   margin-left: env(safe-area-inset-left, 0);
+}
+
+:global(#dino-live-map-region .leaflet-control-zoom a:focus-visible) {
+  outline: 3px solid #111111;
+  outline-offset: 2px;
+  position: relative;
+  z-index: 1;
 }
 
 :global(.pixel-dino) {
@@ -238,7 +245,7 @@
 
 .topControls {
   position: absolute;
-  top: 3.1rem;
+  top: calc(var(--prototype-banner-offset, 2.95rem) + 0.15rem);
   left: 0.75rem;
   z-index: 1300;
   display: flex;

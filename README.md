@@ -279,7 +279,6 @@ Per-package run, build, and layout details live next to the code:
 
 Everything above this section in **this file** is the shared story: **v1 vs v2**, **live demo**, **screenshots**, **transit mode matrix**, **architecture**, **getting started**, **design and accessibility**, and **assets / credits**.
 
----
+## ---
 
-## Thanks for checking out DINO-TRANSIT v1.0! ◕⩊◕
-
+#### Thanks for checking out DINO-TRANSIT v1.0!

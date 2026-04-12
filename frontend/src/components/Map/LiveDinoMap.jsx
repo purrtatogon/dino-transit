@@ -111,7 +111,7 @@ const LiveDinoMap = ({
                     className={s.mapContainer}
                     aria-label="Lisbon metro map with live dinosaur metro icons"
                 >
-                    <ZoomControl position="bottomleft" />
+                    <ZoomControl position="topleft" />
                     <FitToNetwork />
                     <ZoomCssSync />
                     <MapInvalidateWhenShown isShown />
